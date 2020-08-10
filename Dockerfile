@@ -89,7 +89,7 @@ RUN pip3 install --upgrade pip && \
 # Install TeXLive
 RUN apk add --no-cache --virtual .texlive-deps $TEXLIVE_DEPS && \
     mkdir /tmp/install-tl-unx && \
-    wget -qO- http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | \
+    wget --no-check-certificate -qO- http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | \
       tar -xz -C /tmp/install-tl-unx --strip-components=1 && \
     printf "%s\n" \
       "TEXDIR $TEXLIVE_PATH" \
@@ -110,4 +110,4 @@ VOLUME ["/workdir"]
 
 WORKDIR /workdir
 
-ENTRYPOINT ["/bin/bash", "-c", "./setup.sh && make"]
+#ENTRYPOINT ["/bin/bash", "-c", "./setup.sh && make"]
