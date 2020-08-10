@@ -1,0 +1,138 @@
+\documentclass[10pt, a4paper, oneside]{ltjsbook}
+\usepackage{amssymb,amsmath}
+\usepackage{luatexja-fontspec}
+\usepackage[Lenny]{fncychap}
+
+% チャプターマークの設定
+\makeatletter
+\renewcommand{\DOCH}{%
+  \settowidth{\px}{\CNV\FmN{\@chapapp}}
+  \addtolength{\px}{2pt}
+  \settoheight{\py}{\CNV\FmN{\@chapapp}}
+  \addtolength{\py}{1pt}
+
+  \settowidth{\mylen}{\CNV\FmN{\@chapapp}\space\CNoV\thechapter}
+  \addtolength{\mylen}{1pt}
+  \settowidth{\pxx}{\CNoV\thechapter}
+  \addtolength{\pxx}{-1pt}
+
+  \settoheight{\pyy}{\CNoV\thechapter}
+  \addtolength{\pyy}{-2pt}
+  \setlength{\myhi}{\pyy}
+  \addtolength{\myhi}{-1\py}
+  \par
+  \parbox[b]{\textwidth}{%
+    \rule[\py]{\RW}{\myhi}%
+    \hskip -\RW%
+    \rule[\pyy]{\px}{\RW}%
+    \hskip -\px%
+    \raggedright%
+    \CNV\FmN{\@chapapp}\space\CNoV\thechapter\CNV\FmN{\@chappos}%
+    \hskip1pt%
+    \mghrulefill{\RW}%
+    \rule{\RW}{\pyy}\par\nobreak%
+    \vskip -\baselineskip%
+    \vskip -\pyy%
+    \hskip \mylen%
+    \mghrulefill{\RW}\par\nobreak%
+    \vskip \pyy}%
+  \vskip 20\p@}
+\makeatother
+
+\usepackage{luacode}
+
+% フォント設定
+% \ltjsetparameter{jacharrange={...}} の挙動が不安定
+% うまくいかなければ \ltjalchar でしのぐ
+
+\setmainfont{Noto Serif}
+\setmainjfont{Noto Serif CJK JP}
+\setmonofont{Source Code Pro}
+
+\ltjsetparameter{jacharrange={-2}}
+
+% \newcommadn\cyrillictext[1]{{\cyrillicfont #1}}
+% \newfontfamily\cyrillicfont{Noto Serif}
+\newcommand{\arabictext}[1]{{\arabicfont {\textdir TRT #1}}}
+\newcommand{\cjkunifiedtext}[1]{{\cjkunifiedfont #1}}
+\newcommand{\devanagaritext}[1]{{\devanagarifont #1}}
+\newcommand{\emojitext}[1]{{\emojifont #1}}
+\newcommand{\hangultext}[1]{{\hangulfont #1}}
+\newcommand{\hebrewtext}[1]{{\hebrewfont {\textdir TRT #1}}}
+\newcommand{\letterliketext}[1]{{\letterlikefont #1}}
+\newfontfamily\arabicfont[Script=Arabic]{Noto Naskh Arabic}
+\newfontfamily\cjkunifiedfont{Noto Serif CJK JP}
+\newfontfamily\devanagarifont{Noto Sans Devanagari}
+\newfontfamily\emojifont{Noto Emoji}
+\newfontfamily\hangulfont{Noto Serif CJK JP}
+\newfontfamily\hebrewfont{Noto Sans Hebrew}
+\newfontfamily\letterlikefont{Noto Serif}
+
+\usepackage[centering]{geometry}
+
+\usepackage[%
+  unicode=true,
+  breaklinks=true
+  bookmarks=true,
+  pdfborder={0 0 0},
+  bookmarksnumbered=true,
+  bookmarkstype=toc,
+  bookmarksopen=true,
+  pdfauthor={Yuu YOSHIMURA},
+  pdftitle={The Rust Programming Language: 2nd Edition}]{hyperref}
+
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{mdframed}
+\usepackage{listings}
+\usepackage{enumitem}
+
+\input{listings.tex}
+
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+
+\usepackage[some]{background}
+
+% 画像の設定
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>.8\linewidth\linewidth\else\Gin@nat@width\fi}
+\makeatother
+\setkeys{Gin}{width=\maxwidth, keepaspectratio}
+
+% Pandocが要求するマクロを定義
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ヘッダーの長さを調整するワークアラウンド
+\setlength{\fullwidth}{\textwidth}
+
+% 画像がない場合にコンパイルを無理やり実行する設定
+\usepackage{ifthen}
+\LetLtxMacro\latexincludegraphics\includegraphics
+\makeatletter
+\renewcommand\includegraphics[2][]{%
+  \IfFileExists{#2}
+    {%
+      \latexincludegraphics[#1]{#2}}
+    {%
+      \fbox{Image File doesn't exist}%
+      \message{Image File #2 doesn't exist^^J}}
+}
+\makeatother
+
+% リストを入れ子にできる限界を拡張
+\setlistdepth{10}
+
+% 強調をボールドにする
+\let\emph\relax
+\DeclareTextFontCommand{\emph}{\gtfamily\bfseries}
+
+
+\begin{document}
+
+% 本文
+\input{body.tex}
+
+\end{document}
